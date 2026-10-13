@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica 1 — Librerías Python | Dashboard Cyberpunk</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAVBAR ════════════════════════════════ -->
+<nav class="navbar">
+  <a class="navbar-brand" href="#">
+    🐍 PRÁCTICA&nbsp;1
+    <span>// PYTHON LIBS</span>
+  </a>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-badge">12 LIBS</span>
+    <span class="mono text-xs gray" id="clock">──:──:──</span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ═════════════════════════════════ -->
+<header class="hero">
+  <h1>LIBRERÍAS <em>PYTHON</em></h1>
+  <p class="subtitle">// EXPLORACIÓN PRÁCTICA DE 12 LIBRERÍAS FUNDAMENTALES</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="value">3</span><span class="label">Stdlib</span></div>
+    <div class="hero-stat"><span class="value">9</span><span class="label">Externas</span></div>
+    <div class="hero-stat"><span class="value">12</span><span class="label">Librerías</span></div>
+    <div class="hero-stat"><span class="value">Flask</span><span class="label">Framework</span></div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ MAIN ═════════════════════════════════ -->
+<main class="container">
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- ── TABS ────────────────────────────────────────────────────────────── -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('tab-libs', this)">📦 Librerías</button>
+    <button class="tab-btn" onclick="showTab('tab-graficos', this)">📊 Gráficos</button>
+    <button class="tab-btn" onclick="showTab('tab-archivos', this)">📄 Archivos</button>
+    <button class="tab-btn" onclick="showTab('tab-info', this)">ℹ️ Info</button>
+  </div>
+
+  <!-- ═══════════════ TAB: LIBRERÍAS ══════════════════════════════════════ -->
+  <div id="tab-libs" class="tab-panel active">
+    <h2 class="section-title">⚡ LIBRERÍAS DISPONIBLES</h2>
+    <div class="cards-grid">
+
+      <!-- ─ 01. MATH ─────────────────────────────────────────────────── -->
+      <div class="card" id="card-math">
+        <div class="card-header">
+          <span class="card-icon">🧮</span>
+          <div class="card-meta">
+            <span class="card-number">01 / STDLIB</span>
+            <div class="card-title">math</div>
+          </div>
+          <span class="card-badge stdlib">STDLIB</span>
+        </div>
+        <p class="card-description">
+          Funciones matemáticas: trigonometría, logaritmos, constantes π y e,
+          factorial, combinaciones, permutaciones y distancia euclidiana.
+        </p>
+        <div class="output-box" id="out-math"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('math')">
+            <span class="spinner hidden" id="spin-math"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-math" title="Sin ejecutar"></span>
+        </div>
+      </div>
+
+      <!-- ─ 02. RANDOM ──────────────────────────────────────────────── -->
+      <div class="card" id="card-random">
+        <div class="card-header">
+          <span class="card-icon">🎲</span>
+          <div class="card-meta">
+            <span class="card-number">02 / STDLIB</span>
+            <div class="card-title">random</div>
+          </div>
+          <span class="card-badge stdlib">STDLIB</span>
+        </div>
+        <p class="card-description">
+          Generación pseudoaleatoria: enteros, flotantes, elección aleatoria,
+          barajado de secuencias, semilla, y generador de contraseñas.
+        </p>
+        <div class="output-box" id="out-random"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('random')">
+            <span class="spinner hidden" id="spin-random"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-random"></span>
+        </div>
+      </div>
+
+      <!-- ─ 03. DATETIME ────────────────────────────────────────────── -->
+      <div class="card" id="card-datetime">
+        <div class="card-header">
+          <span class="card-icon">📅</span>
+          <div class="card-meta">
+            <span class="card-number">03 / STDLIB</span>
+            <div class="card-title">datetime</div>
+          </div>
+          <span class="card-badge stdlib">STDLIB</span>
+        </div>
+        <p class="card-description">
+          Manipulación de fechas y horas: fecha actual, UTC, formateo con
+          strftime/strptime, aritmética con timedelta y diferencias entre fechas.
+        </p>
+        <div class="output-box" id="out-datetime"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('datetime')">
+            <span class="spinner hidden" id="spin-datetime"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-datetime"></span>
+        </div>
+      </div>
+
+      <!-- ─ 04. CSV ──────────────────────────────────────────────────── -->
+      <div class="card" id="card-csv">
+        <div class="card-header">
+          <span class="card-icon">📋</span>
+          <div class="card-meta">
+            <span class="card-number">04 / STDLIB</span>
+            <div class="card-title">csv</div>
+          </div>
+          <span class="card-badge stdlib">STDLIB</span>
+        </div>
+        <p class="card-description">
+          Lectura y escritura de archivos CSV: writer, reader, DictWriter,
+          DictReader, estadísticas calculadas y soporte de múltiples delimitadores.
+        </p>
+        <div class="output-box" id="out-csv"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('csv')">
+            <span class="spinner hidden" id="spin-csv"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-csv"></span>
+        </div>
+      </div>
+
+      <!-- ─ 05. FPDF ────────────────────────────────────────────────── -->
+      <div class="card" id="card-fpdf">
+        <div class="card-header">
+          <span class="card-icon">📝</span>
+          <div class="card-meta">
+            <span class="card-number">05 / EXTERNA</span>
+            <div class="card-title">fpdf2</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          Generación de PDF: encabezado y pie personalizados, tabla de
+          calificaciones con colores alternos, barras de progreso y estadísticas.
+        </p>
+        <div class="output-box" id="out-fpdf"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('fpdf')">
+            <span class="spinner hidden" id="spin-fpdf"></span> ▶ Ejecutar
+          </button>
+          <a class="btn btn-outline" href="/descargar/reporte_fpdf.pdf" target="_blank">⬇ PDF</a>
+          <span class="status-dot" id="dot-fpdf"></span>
+        </div>
+      </div>
+
+      <!-- ─ 06. REPORTLAB ───────────────────────────────────────────── -->
+      <div class="card" id="card-reportlab">
+        <div class="card-header">
+          <span class="card-icon">📊</span>
+          <div class="card-meta">
+            <span class="card-number">06 / EXTERNA</span>
+            <div class="card-title">reportlab</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          PDF avanzado con Platypus: ParagraphStyle, TableStyle por celda,
+          HRFlowable, gráfico de barras vectorial integrado y layout profesional.
+        </p>
+        <div class="output-box" id="out-reportlab"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('reportlab')">
+            <span class="spinner hidden" id="spin-reportlab"></span> ▶ Ejecutar
+          </button>
+          <a class="btn btn-outline" href="/descargar/reporte_reportlab.pdf" target="_blank">⬇ PDF</a>
+          <span class="status-dot" id="dot-reportlab"></span>
+        </div>
+      </div>
+
+      <!-- ─ 07. NUMPY ───────────────────────────────────────────────── -->
+      <div class="card" id="card-numpy">
+        <div class="card-header">
+          <span class="card-icon">🔢</span>
+          <div class="card-meta">
+            <span class="card-number">07 / EXTERNA</span>
+            <div class="card-title">NumPy</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          Arrays N-dimensionales, matrices, álgebra lineal (det, inv, eig, solve),
+          estadísticas descriptivas, indexado avanzado y funciones universales.
+        </p>
+        <div class="output-box" id="out-numpy"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('numpy')">
+            <span class="spinner hidden" id="spin-numpy"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-numpy"></span>
+        </div>
+      </div>
+
+      <!-- ─ 08. PANDAS ──────────────────────────────────────────────── -->
+      <div class="card" id="card-pandas">
+        <div class="card-header">
+          <span class="card-icon">🐼</span>
+          <div class="card-meta">
+            <span class="card-number">08 / EXTERNA</span>
+            <div class="card-title">Pandas</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          DataFrames con 20 estudiantes: filtrado, groupby, estadísticas
+          descriptivas, manejo de valores nulos y exportación a CSV, Excel y JSON.
+        </p>
+        <div class="output-box" id="out-pandas"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('pandas')">
+            <span class="spinner hidden" id="spin-pandas"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-pandas"></span>
+        </div>
+      </div>
+
+      <!-- ─ 09. MATPLOTLIB ──────────────────────────────────────────── -->
+      <div class="card" id="card-matplotlib">
+        <div class="card-header">
+          <span class="card-icon">📈</span>
+          <div class="card-meta">
+            <span class="card-number">09 / EXTERNA</span>
+            <div class="card-title">Matplotlib</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          5 gráficos con tema cyberpunk oscuro: barras, líneas (funciones trig.),
+          histograma, gráfico circular y dispersión con línea de tendencia.
+        </p>
+        <div class="output-box" id="out-matplotlib"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('matplotlib')">
+            <span class="spinner hidden" id="spin-matplotlib"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-matplotlib"></span>
+        </div>
+      </div>
+
+      <!-- ─ 10. REQUESTS ────────────────────────────────────────────── -->
+      <div class="card" id="card-requests">
+        <div class="card-header">
+          <span class="card-icon">🌐</span>
+          <div class="card-meta">
+            <span class="card-number">10 / EXTERNA</span>
+            <div class="card-title">requests</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          HTTP GET/POST a JSONPlaceholder: usuarios, posts, query params,
+          headers personalizados, simulación POST y manejo de errores HTTP.
+        </p>
+        <div class="output-box" id="out-requests"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('requests')">
+            <span class="spinner hidden" id="spin-requests"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-requests"></span>
+        </div>
+      </div>
+
+      <!-- ─ 11. FLASK ───────────────────────────────────────────────── -->
+      <div class="card" id="card-flask">
+        <div class="card-header">
+          <span class="card-icon">🌍</span>
+          <div class="card-meta">
+            <span class="card-number">11 / EXTERNA</span>
+            <div class="card-title">Flask</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          Este mismo servidor. Rutas dinámicas, Jinja2, respuestas JSON,
+          parámetros URL, manejo de errores y servicio de archivos estáticos.
+        </p>
+        <div class="output-box" id="out-flask"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('flask')">
+            <span class="spinner hidden" id="spin-flask"></span> ▶ Info
+          </button>
+          <a class="btn btn-outline" href="/api/flask-info" target="_blank">🔗 API</a>
+          <span class="status-dot" id="dot-flask"></span>
+        </div>
+      </div>
+
+      <!-- ─ 12. SCIKIT-LEARN ────────────────────────────────────────── -->
+      <div class="card" id="card-sklearn">
+        <div class="card-header">
+          <span class="card-icon">🤖</span>
+          <div class="card-meta">
+            <span class="card-number">12 / EXTERNA</span>
+            <div class="card-title">scikit-learn</div>
+          </div>
+          <span class="card-badge external">PIP</span>
+        </div>
+        <p class="card-description">
+          Regresión Lineal (simple y múltiple): train/test split, Pipeline,
+          StandardScaler, métricas R², MSE, MAE y gráficos de residuos.
+        </p>
+        <div class="output-box" id="out-sklearn"><span class="gray">// Presiona Ejecutar para ver la salida</span></div>
+        <div class="card-actions">
+          <button class="btn btn-primary" onclick="runLib('sklearn')">
+            <span class="spinner hidden" id="spin-sklearn"></span> ▶ Ejecutar
+          </button>
+          <span class="status-dot" id="dot-sklearn"></span>
+        </div>
+      </div>
+
+    </div><!-- /cards-grid -->
+
+    <!-- Botón ejecutar todas -->
+    <div style="text-align:center; margin-bottom:2rem;">
+      <button class="btn btn-primary" style="padding:10px 28px; font-size:0.85rem;"
+              onclick="runAll()">
+        ⚡ EJECUTAR TODAS LAS LIBRERÍAS
+      </button>
+    </div>
+  </div><!-- /tab-libs -->
+
+  <!-- ═══════════════ TAB: GRÁFICOS ═══════════════════════════════════════ -->
+  <div id="tab-graficos" class="tab-panel">
+    <h2 class="section-title">📊 GRÁFICOS MATPLOTLIB</h2>
+    <p class="text-sm gray mb-3">
+      Los gráficos se generan al ejecutar la librería Matplotlib en la pestaña anterior.
+      Haz clic en "▶ Ejecutar" en la tarjeta de Matplotlib y luego recarga esta pestaña.
+    </p>
+    <div class="charts-grid">
+      {% for nombre, titulo in graficos %}
+      <div class="chart-card">
+        <img src="/grafico/{{ nombre }}"
+             alt="{{ titulo }}"
+             onerror="this.style.display='none'; this.nextSibling.style.display='block';" />
+        <div style="display:none; padding:3rem 1rem; text-align:center; color:#555; font-family:monospace; font-size:0.8rem;">
+          Sin generar aún — Ejecuta Matplotlib primero
+        </div>
+        <div class="chart-label">{{ titulo }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ═══════════════ TAB: ARCHIVOS ═══════════════════════════════════════ -->
+  <div id="tab-archivos" class="tab-panel">
+    <h2 class="section-title">📁 ARCHIVOS GENERADOS</h2>
+    <p class="text-sm gray mb-3">
+      Archivos creados automáticamente en la carpeta <span class="mono red">outputs/</span>
+      al ejecutar las librerías.
+    </p>
+    <div class="cards-grid">
+      {% for archivo in archivos_generados %}
+      <div class="card" style="padding:1rem 1.2rem;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:0.5rem;">
+          <span style="font-size:1.4rem;">
+            {% if archivo.ext == 'pdf' %}📄
+            {% elif archivo.ext == 'csv' %}📋
+            {% elif archivo.ext == 'png' %}🖼️
+            {% elif archivo.ext == 'json' %}🗂️
+            {% else %}📁{% endif %}
+          </span>
+          <div>
+            <div class="bold mono" style="font-size:0.85rem; color:var(--red);">{{ archivo.nombre }}</div>
+            <div class="text-xs gray mono">{{ archivo.ext.upper() }} — {{ archivo.tamanio }}</div>
+          </div>
+        </div>
+        <a class="btn btn-outline" href="/descargar/{{ archivo.nombre }}" target="_blank"
+           style="font-size:0.7rem; padding:5px 12px;">
+          ⬇ Descargar
+        </a>
+      </div>
+      {% else %}
+      <div class="card" style="grid-column:1/-1; text-align:center; padding:2rem; color:var(--gray);">
+        <p class="mono">Sin archivos generados aún.</p>
+        <p class="text-sm mt-2">Ejecuta las librerías en la pestaña <strong>Librerías</strong>.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ═══════════════ TAB: INFO ════════════════════════════════════════════ -->
+  <div id="tab-info" class="tab-panel">
+    <h2 class="section-title">ℹ️ INFORMACIÓN DEL PROYECTO</h2>
+    <div class="cards-grid">
+
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-title mb-2" style="font-size:1rem; color:var(--red);">📌 Sobre la Práctica</div>
+        <p class="card-description" style="margin-bottom:0.8rem;">
+          Este dashboard es el punto central de la <strong>Práctica 1 — Librerías Python</strong>.
+          Cada tarjeta representa una librería diferente y ejecuta su script de demostración
+          de manera independiente a través de llamadas AJAX al servidor Flask.
+        </p>
+        <p class="card-description" style="margin-bottom:0;">
+          Los scripts individuales se encuentran en <span class="mono red">scripts_ejemplos/</span>
+          y pueden ejecutarse también de manera autónoma desde la terminal.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title mb-2" style="font-size:0.9rem; color:var(--red);">🎨 Tema Visual</div>
+        <div class="output-box" style="font-size:0.75rem;">
+<span class="ok">--bg:     #0b0b0b  ← Fondo principal</span>
+<span class="err">--red:    #ff1e42  ← Acentos neón</span>
+<span class="info">--white:  #ffffff  ← Texto</span>
+<span class="warn">--cyan:   #00e5ff  ← Secundario</span>
+<span class="gray">Fuentes: Orbitron + Rajdhani + Share Tech Mono</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title mb-2" style="font-size:0.9rem; color:var(--red);">📦 Dependencias</div>
+        <div class="output-box" style="font-size:0.75rem;">
+{% for dep in dependencias %}
+<span class="ok">✓</span> <span class="info">{{ dep.nombre }}</span> <span class="gray">{{ dep.version }}</span>
+{% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-line">
+    <span>🐍 PRÁCTICA 1 — LIBRERÍAS PYTHON</span>
+    <span class="footer-sep"></span>
+    <span>Flask {{ flask_version }}</span>
+    <span class="footer-sep"></span>
+    <a href="https://flask.palletsprojects.com" target="_blank">Flask Docs</a>
+    <span class="footer-sep"></span>
+    <span>{{ fecha_actual }}</span>
+  </div>
+  <div class="gray text-xs">// Dashboard generado con Flask + Jinja2 | Tema Cyberpunk</div>
+</footer>
+
+<!-- ═══════════════════════════════ JS ═══════════════════════════════════ -->
+<script>
+/* ── Reloj en tiempo real ─────────────────────────────────────────────── */
+function actualizarReloj() {
+  const d = new Date();
+  const h = String(d.getHours()).padStart(2,'0');
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+}
+setInterval(actualizarReloj, 1000);
+actualizarReloj();
+
+/* ── Tabs ─────────────────────────────────────────────────────────────── */
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── Ejecutar librería individual ────────────────────────────────────── */
+async function runLib(lib) {
+  const outEl  = document.getElementById(`out-${lib}`);
+  const spinEl = document.getElementById(`spin-${lib}`);
+  const dotEl  = document.getElementById(`dot-${lib}`);
+
+  // Estado: cargando
+  outEl.innerHTML = '<span class="warn">⏳ Ejecutando...</span>';
+  spinEl.classList.remove('hidden');
+  dotEl.className = 'status-dot busy';
+
+  try {
+    const resp = await fetch(`/ejecutar/${lib}`);
+    const data = await resp.json();
+
+    if (data.exito) {
+      // Colorear la salida
+      let html = escapeHtml(data.salida)
+        .replace(/(✅[^\n]*)/g, '<span class="ok">$1</span>')
+        .replace(/(❌[^\n]*)/g, '<span class="err">$1</span>')
+        .replace(/(⚠️[^\n]*)/g, '<span class="warn">$1</span>')
+        .replace(/(={40,})/g,   '<span class="gray">$1</span>')
+        .replace(/(\d+\.\d{4,})/g, '<span class="info">$1</span>');
+      outEl.innerHTML = html;
+      dotEl.className = 'status-dot ok';
+    } else {
+      outEl.innerHTML = `<span class="err">❌ ERROR:\n${escapeHtml(data.error)}</span>`;
+      dotEl.className = 'status-dot err';
+    }
+  } catch (e) {
+    outEl.innerHTML = `<span class="err">❌ Error de red: ${e.message}</span>`;
+    dotEl.className = 'status-dot err';
+  } finally {
+    spinEl.classList.add('hidden');
+  }
+}
+
+/* ── Ejecutar todas ───────────────────────────────────────────────────── */
+async function runAll() {
+  const libs = ['math','random','datetime','csv','fpdf','reportlab',
+                'numpy','pandas','matplotlib','requests','flask','sklearn'];
+  for (const lib of libs) {
+    await runLib(lib);
+    await new Promise(r => setTimeout(r, 300));  // pequeña pausa entre llamadas
+  }
+}
+
+/* ── Escape HTML ─────────────────────────────────────────────────────── */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g,  '&amp;')
+    .replace(/</g,  '&lt;')
+    .replace(/>/g,  '&gt;')
+    .replace(/"/g,  '&quot;');
+}
+</script>
+</body>
+</html>

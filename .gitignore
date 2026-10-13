@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Outputs generados
+outputs/*.pdf
+outputs/*.csv
+outputs/*.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Flask
+instance/
+*.sqlite3
+
+# Jupyter
+.ipynb_checkpoints/
